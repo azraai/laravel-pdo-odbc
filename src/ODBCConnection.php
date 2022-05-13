@@ -10,23 +10,15 @@ class ODBCConnection extends Connection
     public function getDefaultQueryGrammar()
     {
         $queryGrammar = $this->getConfig('options.grammar.query');
-
-        if ($queryGrammar) {
-            return new $queryGrammar();
-        }
-
-        return parent::getDefaultQueryGrammar();
+        $queryGrammar = $queryGrammar ? new $queryGrammar() : parent::getDefaultQueryGrammar();
+        return $this->withTablePrefix($queryGrammar);
     }
 
     public function getDefaultSchemaGrammar()
     {
         $schemaGrammar = $this->getConfig('options.grammar.schema');
-
-        if ($schemaGrammar) {
-            return new $schemaGrammar();
-        }
-
-        return parent::getDefaultSchemaGrammar();
+        $schemaGrammar = $schemaGrammar ? new $schemaGrammar() : parent::getDefaultSchemaGrammar();
+        return $this->withTablePrefix($schemaGrammar);
     }
 
     /**
